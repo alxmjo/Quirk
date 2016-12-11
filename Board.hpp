@@ -8,6 +8,8 @@ class Board {
     public:
         Board();
         bool makeMove(int, int, char);
+        bool isValidMove(int, int, char);
+        bool isInBounds(int, int);
         void print();
 };
 #endif

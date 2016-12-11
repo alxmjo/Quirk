@@ -9,7 +9,7 @@ using std::endl;
 int main()
 {	
     Game game;
-    game.startGame();
+    game.playGame();
 	
 	return 0;
 }

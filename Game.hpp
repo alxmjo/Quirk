@@ -6,7 +6,7 @@
 #include "Player.hpp"
 
 enum State {PLAYER_1_WINS, PLAYER_2_WINS, DRAW, UNFINISHED};
-enum Turn {PLAYER_1, PLAYER_2}
+enum Turn {PLAYER_1, PLAYER_2};
 
 class Game {
     private:
@@ -19,8 +19,12 @@ class Game {
 
     public:
         Game();
-        void startGame();
         void playGame();
+        void printStatus();
+        void promptMove();
+        void switchPlayer();
+        void updateState();
+        void finishGame(State);
 };
 
 #endif

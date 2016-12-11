@@ -22,19 +22,23 @@ Pool::Pool() {
 }
 
 char Pool::pullPiece() {
-    int randomIndex = rand() % pieces.size();
-    char c = pieces[randomIndex]; // Get the piece
-    pieces.erase(pieces.begin() + randomIndex); // Remove the piece from the vector
+    if (pieces.empty()) {
+        return '\0';    
+    } else {
+        int randomIndex = rand() % pieces.size();
+        char c = pieces[randomIndex]; // Get the piece
+        pieces.erase(pieces.begin() + randomIndex); // Remove the piece from the vector
     
-    return c;
+        return c;
+    }
 }
 
-int Pool::getPoolSize() {
+int Pool::size() {
     return pieces.size();
 }
 
-void Pool::printPool() {
+void Pool::print() {
     for (int i = 0; i < pieces.size(); i++) {
-        cout << pieces[i] << endl;
+        cout << pieces[i] << " ";
     }
 }

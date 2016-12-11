@@ -9,8 +9,8 @@ class Pool {
         vector<char> pieces;
     public:
         Pool();
-        int getPoolSize(); // for testing
-        void printPool(); // for testing
+        int size(); // for testing
+        void print(); // for testing
         char pullPiece();
 };
 
