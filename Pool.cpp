@@ -27,7 +27,7 @@ char Pool::pullPiece() {
     } else {
         int randomIndex = rand() % pieces.size();
         char c = pieces[randomIndex]; // Get the piece
-        pieces.erase(pieces.begin() + randomIndex); // Remove the piece from the vector
+        pieces.erase(pieces.begin() + randomIndex); // Remove the piece
     
         return c;
     }

@@ -12,13 +12,14 @@ Game::Game() {
     turn = PLAYER_1;
     player1.fillHand(pool);
     player2.fillHand(pool);
+}
+
+void Game::playGame() {
     
     cout << endl;
     cout << "QUIRK" << endl;
     cout << "Place pieces on the board and score points." << endl << endl;
-}
-
-void Game::playGame() {
+    
     while (state == UNFINISHED) {
         printStatus();
         promptMove();
@@ -71,11 +72,11 @@ void Game::promptMove() {
             player.removePiece(piece);
             player.fillHand(pool);
         } else {
-            cout << "That position is already occupied. Try Again." << endl;
+            cout << "That piece can't go there. Try again." << endl << endl;
             promptMove();
         }
     } else {
-        cout << "Sorry, you don't have that piece to play. Try again." << endl;
+        cout << "You don't have that piece to play. Try again." << endl;
         promptMove();
     }
 }
