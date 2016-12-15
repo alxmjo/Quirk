@@ -32,3 +32,6 @@
 *.out
 *.app
 Main
+
+# Dropbox
+.DS_Store
