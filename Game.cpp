@@ -7,6 +7,7 @@ using std::cout;
 using std::endl;
 using std::find;
 
+// Constructor
 Game::Game() {
     state = UNFINISHED;
     turn = PLAYER_1;
@@ -14,6 +15,7 @@ Game::Game() {
     player2.fillHand(pool);
 }
 
+// Print beginning instructions and start game loop
 void Game::playGame() {
     
     cout << endl;
@@ -29,6 +31,7 @@ void Game::playGame() {
     finishGame(state);
 }
 
+// Print current status of game
 void Game::printStatus() {
     
     // Print board
@@ -56,6 +59,7 @@ void Game::printStatus() {
     }
 };
 
+// Prompt player for move and check for validity
 void Game::promptMove() {
     int row, column;
     char piece;
@@ -66,6 +70,8 @@ void Game::promptMove() {
     cout << "Please enter your move: ";
     cin >> row >> column >> piece;
     cout << endl;
+    
+    // TODO: Validate input before checking if player has piece
     
     if (player.hasPiece(piece)) {
         if (board.makeMove(row, column, piece)) {
@@ -81,6 +87,7 @@ void Game::promptMove() {
     }
 }
 
+// Switch players
 void Game::switchPlayer() {
     if (turn == PLAYER_1) {
         turn = PLAYER_2;
@@ -89,6 +96,7 @@ void Game::switchPlayer() {
     }
 }
 
+// Update game status (between UNFINISHED, DRAW, PLAYER_1_WINS, PLAYER_2_WINS) 
 void Game::updateState() {
     if (player1.handSize() > 0 || player2.handSize() > 0) {
         state = UNFINISHED;
@@ -103,6 +111,7 @@ void Game::updateState() {
     }
 }
 
+// Finish game and print result
 void Game::finishGame(State state) {
     // TODO: Print final board configuration
     

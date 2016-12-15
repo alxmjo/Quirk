@@ -7,6 +7,7 @@ using std::time;
 using std::cout; // testing
 using std::endl; // testing
 
+// Constructor
 Pool::Pool() {
     pieces = {'A','A','A','A','A','A',
               'B','B','B','B','B','B',
@@ -21,6 +22,7 @@ Pool::Pool() {
     srand(time(0)); // Seed the random number generator
 }
 
+// Pull and remove a piece from the pieces vector
 char Pool::pullPiece() {
     if (pieces.empty()) {
         return '\0';    
@@ -33,10 +35,12 @@ char Pool::pullPiece() {
     }
 }
 
+// Show the size of the pieces vector
 int Pool::size() {
     return pieces.size();
 }
 
+// Print the pieces vector
 void Pool::print() {
     for (int i = 0; i < pieces.size(); i++) {
         cout << pieces[i] << " ";

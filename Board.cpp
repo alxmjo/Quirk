@@ -17,10 +17,25 @@ bool Board::makeMove(int row, int column, char c) {
     
     if (array[row][column] == '.' && isValidMove(row, column, c)) {
         array[row][column] = c;
+        
+        cout << "horizontal run: ";
+        printVector(getHorizontalRun(row, column)); // for testing
+        cout << endl;
+        cout << "vertical run: ";
+        printVector(getVerticalRun(row, column)); // for testing
+        cout << endl;
+        
         return true;
     } else {
         return false;
     }
+}
+
+// for testing
+void Board::printVector (vector<char> v) {
+  for (int i = 0; i < v.size(); i++){
+    cout << v[i] << ' ';
+  }
 }
 
 vector<char> Board::getHorizontalRun(int row, int column) {
@@ -60,6 +75,46 @@ vector<char> Board::getHorizontalRun(int row, int column) {
     }
 
     return horizontalRun;
+}
+
+// Take coordinates and return a vector of the adjacent vertical pieces
+vector<char> Board::getVerticalRun(int row, int column) {
+    int runStart = row;
+    int runEnd = row;
+    vector<char> verticalRun;
+
+    // find starting position of run
+    while (true) {
+        if (isInBounds(runStart - 1, column)) {
+            if (array[runStart - 1][column] == '.') {
+                break;
+            } else {
+                runStart--;
+            }
+        } else {
+            break;
+        }
+    }
+
+    // find ending position of array
+    while (true) {
+        if (isInBounds(runEnd + 1, column)) {
+            if (array[runEnd + 1][column] == '.') {
+                break;
+            } else {
+                runEnd++;
+            }
+        } else {
+            break;
+        }
+    }
+
+    // Use start and end positions to populate vector
+    for (int i = runStart; i <= runEnd; i++) {
+        verticalRun.push_back(array[i][column]);
+    }
+
+    return verticalRun;
 }
 
 bool Board::isValidMove(int row, int column, char c) {

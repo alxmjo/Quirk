@@ -14,7 +14,9 @@ class Board {
         bool isValidMove(int, int, char);
         bool isValidPiece(char, char);
         bool isInBounds(int, int);
-        vector<char> getHorizontalRun(int,int);
+        vector<char> getHorizontalRun(int, int);
+        vector<char> getVerticalRun(int, int);
         void print();
+        void printVector(vector<char>);
 };
 #endif
