@@ -4,13 +4,19 @@
 #include <vector>
 using std::vector;
 
+enum CharCase {UPPER, LOWER, NUMBER};
+enum CharCount {FIRST, SECOND, THIRD};
+
 class Board {
     private:
         char array[10][10];
+        int turnCount;
         
     public:
         Board();
         bool makeMove(int, int, char);
+        bool isValidRunLength(vector<char>, vector<char>);
+        bool isNoRepeats(vector<char>, vector<char>);
         bool isValidMove(int, int, char);
         bool isValidPiece(char, char);
         bool isInBounds(int, int);

@@ -11,20 +11,30 @@ Board::Board() {
             array[row][column] = '.';
         }
     }
+    
+    turnCount = 0;
 }
 
 bool Board::makeMove(int row, int column, char c) {
     
-    if (array[row][column] == '.' && isValidMove(row, column, c)) {
+    if (array[row][column] == '.' /*&& isValidMove(row, column, c)*/) {
         array[row][column] = c;
         
+        // for testing
         cout << "horizontal run: ";
         printVector(getHorizontalRun(row, column)); // for testing
         cout << endl;
         cout << "vertical run: ";
         printVector(getVerticalRun(row, column)); // for testing
         cout << endl;
+        cout << "isValidRunLength: ";
+        cout << isValidRunLength(getHorizontalRun(row, column), getVerticalRun(row, column));
+        cout << endl;
+        cout << "isNoRepeats: ";
+        cout << isNoRepeats(getHorizontalRun(row, column), getVerticalRun(row, column));
+        cout << endl;
         
+        turnCount++;
         return true;
     } else {
         return false;
@@ -115,6 +125,31 @@ vector<char> Board::getVerticalRun(int row, int column) {
     }
 
     return verticalRun;
+}
+
+// Take run vectors and ensure that one is greater than one (unless it's the first move) 
+// and that none are longer than 3 
+bool Board::isValidRunLength(vector<char> h, vector<char> v) {
+    if (turnCount == 0) {
+        return true;
+    } else if ((h.size() > 1 || v.size() > 1) && h.size() <= 3 && v.size() <= 3) {
+        return true; 
+    } else {
+        return false;
+    }
+}
+
+// Take run vectors and ensure that no chars are repeated
+bool Board::isNoRepeats(vector<char> horizontal, vector<char> vertical) {
+    bool h, v;
+    
+    sort(horizontal.begin(), horizontal.end());
+    h = adjacent_find(horizontal.begin(), horizontal.end()) == horizontal.end();
+    
+    sort(vertical.begin(), vertical.end());
+    v = adjacent_find(vertical.begin(), vertical.end()) == vertical.end();
+    
+    return h && v;
 }
 
 bool Board::isValidMove(int row, int column, char c) {
