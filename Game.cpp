@@ -82,7 +82,7 @@ void Game::promptMove() {
             promptMove();
         }
     } else {
-        cout << "You don't have that piece to play. Try again." << endl;
+        cout << "You don't have that piece to play. Try again." << endl << endl;
         promptMove();
     }
 }
