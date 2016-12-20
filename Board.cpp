@@ -15,6 +15,7 @@ Board::Board() {
     turnCount = 0;
 }
 
+// Take coordinates, a piece, and a reference to a player, and make a move
 bool Board::makeMove(int row, int column, char piece, Player& player) {
     
     if (array[row][column] == '.') {
@@ -38,6 +39,7 @@ bool Board::makeMove(int row, int column, char piece, Player& player) {
     }
 }
 
+// Take move (expressed as and horizontal runs) and determine points
 int Board::getMovePoints(vector<char> verticalRun, vector<char> horizontalRun) {
     int sum = 0;
     
@@ -64,13 +66,7 @@ int Board::getMovePoints(vector<char> verticalRun, vector<char> horizontalRun) {
     return sum;
 }
 
-// for testing
-void Board::printVector(vector<char> v) {
-  for (int i = 0; i < v.size(); i++){
-    cout << v[i] << ' ';
-  }
-}
-
+// Take coordinates and return a vector of the adjacent horizontal pieces
 vector<char> Board::getHorizontalRun(int row, int column) {
     int runStart = column;
     int runEnd = column;
@@ -175,6 +171,15 @@ bool Board::isNoRepeats(vector<char> horizontal, vector<char> vertical) {
     return h && v;
 }
 
+// Check if a location on the board is in bounds
+bool Board::isInBounds(int row, int column) {
+    if (row >= 0 && row < ROWS && column >= 0 && column < COLUMNS) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 // Take a run vector and ensure that it contains a valid set (ABC, 123, Aa1, etc.)
 bool Board::isValidSet(vector<char> v) {
     CharCase charcase0;
@@ -216,6 +221,7 @@ bool Board::isValidSet(vector<char> v) {
     return false;
 }
 
+// Take a char and determine which case 
 CharCase Board::getCharCase(char c) {
     CharCase charcase;
     
@@ -229,6 +235,7 @@ CharCase Board::getCharCase(char c) {
     return charcase;
 }
 
+// Take a char and determine which count
 CharCount Board::getCharCount(char c) {
     CharCount charcount;
     
@@ -242,18 +249,7 @@ CharCount Board::getCharCount(char c) {
     return charcount; 
 }
 
-bool Board::isValidMove(int row, int column, char c) {
-    return false;
-}
-
-bool Board::isInBounds(int row, int column) {
-    if (row >= 0 && row < ROWS && column >= 0 && column < COLUMNS) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
+// Print board
 void Board::print() {
     cout << "  0 1 2 3 4 5 6 7 8 9" << endl; // Print x-axis labels
     for (int row = 0; row < ROWS; row++) {

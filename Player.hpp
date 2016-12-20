@@ -13,10 +13,10 @@ class Player {
         Player();
         void addPoints(int);
         int getPoints();
+        bool hasPiece(char);
         void removePiece(char);
         void fillHand(Pool&);
         int handSize();
-        bool hasPiece(char);
         void printHand();
 };
 

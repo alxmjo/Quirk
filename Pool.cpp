@@ -9,15 +9,15 @@ using std::endl; // testing
 
 // Constructor
 Pool::Pool() {
-    pieces = {'A','A',//'A','A','A','A',
-              'B','B',//'B','B','B','B',
-              'C','C',//'C','C','C','C',
-              'a','a',//'a','a','a','a',
-              'b','b',//'b','b','b','b',
-              'c','c',//'c','c','c','c',
-              '1','1',//'1','1','1','1',
-              '2','2',//'2','2','2','2',
-              '3','3'};//'3','3','3','3'};
+    pieces = {'A','A','A','A','A','A',
+              'B','B','B','B','B','B',
+              'C','C','C','C','C','C',
+              'a','a','a','a','a','a',
+              'b','b','b','b','b','b',
+              'c','c','c','c','c','c',
+              '1','1','1','1','1','1',
+              '2','2','2','2','2','2',
+              '3','3','3','3','3','3'};
     
     srand(time(0)); // Seed the random number generator
 }
@@ -38,11 +38,4 @@ char Pool::pullPiece() {
 // Show the size of the pieces vector
 int Pool::size() {
     return pieces.size();
-}
-
-// Print the pieces vector
-void Pool::print() {
-    for (int i = 0; i < pieces.size(); i++) {
-        cout << pieces[i] << " ";
-    }
 }

@@ -17,16 +17,15 @@ class Board {
         Board();
         bool makeMove(int, int, char, Player&);
         int getMovePoints(vector<char>, vector<char>);
+        vector<char> getHorizontalRun(int, int);
+        vector<char> getVerticalRun(int, int);
         bool isValidRunLength(vector<char>, vector<char>);
         bool isNoRepeats(vector<char>, vector<char>);
+        bool isInBounds(int, int);
         bool isValidSet(vector<char>);
         CharCase getCharCase(char);
         CharCount getCharCount(char);
-        bool isValidMove(int, int, char);
-        bool isInBounds(int, int);
-        vector<char> getHorizontalRun(int, int);
-        vector<char> getVerticalRun(int, int);
         void print();
-        void printVector(vector<char>);
 };
+
 #endif

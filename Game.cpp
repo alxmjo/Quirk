@@ -68,6 +68,7 @@ void Game::promptMove() {
     // Create reference to a player
     Player& player = (turn == PLAYER_1) ? player1 : player2;
 
+    // Loop until a valid move is made
     while (true) {
         cout << "Please enter your move: ";
         if (cin >> row >> column >> piece) {
@@ -81,6 +82,7 @@ void Game::promptMove() {
     
     cout << endl;
     
+    // If s or x is entered, skip or exit
     if (piece == 's') {
         cout << "Skipping turn." << endl << endl;
         return;
@@ -89,6 +91,7 @@ void Game::promptMove() {
         return;
     }
     
+    // Attempt to make the move
     if (player.hasPiece(piece)) {
         if (board.makeMove(row, column, piece, player)) {
             player.removePiece(piece);
@@ -112,7 +115,7 @@ void Game::switchPlayer() {
     }
 }
 
-// Update game status (between UNFINISHED, DRAW, PLAYER_1_WINS, PLAYER_2_WINS) 
+// Update game status 
 void Game::updateState() {
     if (state == ABORTED) {
         return;
@@ -131,8 +134,6 @@ void Game::updateState() {
 
 // Finish game and print result
 void Game::finishGame(State state) {
-    // TODO: Print final board configuration
-    
     switch (state) {
         case PLAYER_1_WINS: cout << "Player 1 wins!" << endl;
                             break;
