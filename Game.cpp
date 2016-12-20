@@ -61,17 +61,33 @@ void Game::printStatus() {
 
 // Prompt player for move and check for validity
 void Game::promptMove() {
+    char command;
     int row, column;
     char piece;
     
     // Create reference to a player
     Player& player = (turn == PLAYER_1) ? player1 : player2;
- 
-    cout << "Please enter your move: ";
-    cin >> row >> column >> piece;
+
+    while (true) {
+        cout << "Please enter your move: ";
+        if (cin >> row >> column >> piece) {
+            break;
+        } else {
+            cout << endl << "Invalid input. Try again." << endl << endl;
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+    }
+    
     cout << endl;
     
-    // TODO: Validate input before checking if player has piece
+    if (piece == 's') {
+        cout << "Skipping turn." << endl << endl;
+        return;
+    } else if (piece == 'x') {
+        state = ABORTED;
+        return;
+    }
     
     if (player.hasPiece(piece)) {
         if (board.makeMove(row, column, piece, player)) {
@@ -98,7 +114,9 @@ void Game::switchPlayer() {
 
 // Update game status (between UNFINISHED, DRAW, PLAYER_1_WINS, PLAYER_2_WINS) 
 void Game::updateState() {
-    if (player1.handSize() > 0 || player2.handSize() > 0) {
+    if (state == ABORTED) {
+        return;
+    } else if (player1.handSize() > 0 || player2.handSize() > 0) {
         state = UNFINISHED;
     } else {
         if (player1.getPoints() == player2.getPoints()) {
@@ -122,6 +140,9 @@ void Game::finishGame(State state) {
                             break;
         case DRAW:          cout << "It's a draw." << endl;
                             break;
-        case UNFINISHED:    break;
+        case UNFINISHED:    cout << "Game is unfinished." << endl;
+                            break;
+        case ABORTED:       cout << "Game is aborted." << endl;
+                            break;
     }
 }

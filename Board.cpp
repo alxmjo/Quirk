@@ -53,6 +53,14 @@ int Board::getMovePoints(vector<char> verticalRun, vector<char> horizontalRun) {
         sum += verticalRun.size();
     }
     
+    if (horizontalRun.size() == 3) {
+        sum += 3;
+    }
+    
+    if (verticalRun.size() == 3) {
+        sum += 3;
+    }
+    
     return sum;
 }
 

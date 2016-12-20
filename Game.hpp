@@ -5,7 +5,7 @@
 #include "Pool.hpp"
 #include "Player.hpp"
 
-enum State {PLAYER_1_WINS, PLAYER_2_WINS, DRAW, UNFINISHED};
+enum State {PLAYER_1_WINS, PLAYER_2_WINS, DRAW, UNFINISHED, ABORTED};
 enum Turn {PLAYER_1, PLAYER_2};
 
 class Game {
