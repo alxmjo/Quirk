@@ -17,8 +17,10 @@ class Board {
         bool makeMove(int, int, char);
         bool isValidRunLength(vector<char>, vector<char>);
         bool isNoRepeats(vector<char>, vector<char>);
+        bool isValidSet(vector<char>);
+        CharCase getCharCase(char);
+        CharCount getCharCount(char);
         bool isValidMove(int, int, char);
-        bool isValidPiece(char, char);
         bool isInBounds(int, int);
         vector<char> getHorizontalRun(int, int);
         vector<char> getVerticalRun(int, int);

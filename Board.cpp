@@ -15,34 +15,25 @@ Board::Board() {
     turnCount = 0;
 }
 
-bool Board::makeMove(int row, int column, char c) {
+bool Board::makeMove(int row, int column, char piece) {
     
-    if (array[row][column] == '.' /*&& isValidMove(row, column, c)*/) {
-        array[row][column] = c;
+    if (array[row][column] == '.') {
+        array[row][column] = piece;   
         
-        // for testing
-        cout << "horizontal run: ";
-        printVector(getHorizontalRun(row, column)); // for testing
-        cout << endl;
-        cout << "vertical run: ";
-        printVector(getVerticalRun(row, column)); // for testing
-        cout << endl;
-        cout << "isValidRunLength: ";
-        cout << isValidRunLength(getHorizontalRun(row, column), getVerticalRun(row, column));
-        cout << endl;
-        cout << "isNoRepeats: ";
-        cout << isNoRepeats(getHorizontalRun(row, column), getVerticalRun(row, column));
-        cout << endl;
-        
-        turnCount++;
-        return true;
+        if (isValidSet(getHorizontalRun(row, column)) && isNoRepeats(getHorizontalRun(row, column), getVerticalRun(row, column)) && isValidRunLength(getHorizontalRun(row, column), getVerticalRun(row, column)) && isValidSet(getVerticalRun(row, column))) {
+            turnCount++;
+            return true;
+        } else {
+            array[row][column] = '.';
+            return false;
+        }
     } else {
         return false;
     }
 }
 
 // for testing
-void Board::printVector (vector<char> v) {
+void Board::printVector(vector<char> v) {
   for (int i = 0; i < v.size(); i++){
     cout << v[i] << ' ';
   }
@@ -66,7 +57,7 @@ vector<char> Board::getHorizontalRun(int row, int column) {
         }
     }
 
-    // find ending position of array
+    // find ending position of run
     while (true) {
         if (isInBounds(row, runEnd + 1)) {
             if (array[row][runEnd + 1] == '.') {
@@ -127,7 +118,7 @@ vector<char> Board::getVerticalRun(int row, int column) {
     return verticalRun;
 }
 
-// Take run vectors and ensure that one is greater than one (unless it's the first move) 
+// Take run vectors and ensure that one of them is greater than one (unless it's the first move) 
 // and that none are longer than 3 
 bool Board::isValidRunLength(vector<char> h, vector<char> v) {
     if (turnCount == 0) {
@@ -152,142 +143,75 @@ bool Board::isNoRepeats(vector<char> horizontal, vector<char> vertical) {
     return h && v;
 }
 
-bool Board::isValidMove(int row, int column, char c) {
-    bool    above, below, left, right,
-            above2, below2, left2, right2,
-            aboveConsec, rightConsec, belowConsec, leftConsec;
-            
-            rightConsec = true;
-            belowConsec = true;
-            leftConsec = true;
+// Take a run vector and ensure that it contains a valid set (ABC, 123, Aa1, etc.)
+bool Board::isValidSet(vector<char> v) {
+    CharCase charcase0;
+    CharCase charcase1;
+    CharCase charcase2;
+    CharCount charcount0;
+    CharCount charcount1;
+    CharCount charcount2;
+
+    if (v.size() == 1) {
+        return true;
+    } else if (v.size() == 2) {
+        CharCase charcase0 = getCharCase(v[0]);
+        CharCase charcase1 = getCharCase(v[1]);
+        CharCount charcount0 = getCharCount(v[0]);
+        CharCount charcount1 = getCharCount(v[1]);
         
-    // check above
-    if (isInBounds(row - 1, column)) {
-        above = isValidPiece(c, array[row - 1][column]);
-    } else {
-        above = true;
+        if ((charcase0 == charcase1) || (charcount0 == charcount1)) {
+            return true;
+        } else {
+            return false;
+        }
+    } else if (v.size() == 3) {
+        CharCase charcase0 = getCharCase(v[0]);
+        CharCase charcase1 = getCharCase(v[1]);
+        CharCase charcase2 = getCharCase(v[2]);
+        CharCount charcount0 = getCharCount(v[0]);
+        CharCount charcount1 = getCharCount(v[1]);
+        CharCount charcount2 = getCharCount(v[2]);
+        
+        if ((charcase0 == charcase1 && charcase1 == charcase2) || (charcount0 == charcount1 && charcount1 == charcount2)) {
+            return true;       
+        } else {
+            return false;
+        }
     }
     
-    // check below
-    if (isInBounds(row + 1, column)) {
-        below = isValidPiece(c, array[row + 1][column]);
-    } else {
-        below = true;
-    }
-    
-    // check left
-    if (isInBounds(row, column - 1)) {
-        left = isValidPiece(c, array[row][column - 1]);
-    } else {
-        left = true;
-    }
-    
-    // check right
-    if (isInBounds(row, column + 1)) {
-        right = isValidPiece(c, array[row][column + 1]);
-    } else {
-        right = true;
-    }
-    
-    // check above2
-    if (isInBounds(row - 2, column)) {
-        above2 = isValidPiece(c, array[row - 2][column]);
-    } else {
-        above2 = true;
-    }
-    
-    // check below2
-    if (isInBounds(row + 2, column)) {
-        below2 = isValidPiece(c, array[row + 2][column]);
-    } else {
-        below2 = true;
-    }
-    
-    // check left2
-    if (isInBounds(row, column - 2)) {
-        left2 = isValidPiece(c, array[row][column - 2]);
-    } else {
-        left2 = true;
-    }
-    
-    // check right2
-    if (isInBounds(row, column + 2)) {
-        right2 = isValidPiece(c, array[row][column + 2]);
-    } else {
-        right2 = true;
-    }
-    
-    // check no more than three pieces in a row above
-    if (isInBounds(row - 3, column)) {
-        aboveConsec = array[row - 1][column] == '.' || array[row - 2][column] == '.' || array[row - 3][column] == '.';
-    } else {
-        aboveConsec = true;
-    }
-    
-    // check no more than three pieces in a row below
-    if (isInBounds(row + 3, column)) {
-        aboveConsec = array[row + 3][column] == '.' || array[row + 3][column] == '.' || array[row + 3][column] == '.';
-    } else {
-        belowConsec = true;
-    }
-    
-    // check no more than three pieces in a row left
-    if (isInBounds(row, column - 3)) {
-        aboveConsec = array[row][column - 3] == '.' || array[row][column - 3] == '.' || array[row][column - 3] == '.';
-    } else {
-        leftConsec = true;
-    }
-    
-    // check no more than three pieces in a row left
-    if (isInBounds(row, column + 3)) {
-        aboveConsec = array[row][column + 3] == '.' || array[row][column + 3] == '.' || array[row][column + 3] == '.';
-    } else {
-        rightConsec = true;
-    }
-    
-    return  above && below && left && right && 
-            above2 && below2 && left2 && right2 &&
-            aboveConsec && rightConsec && belowConsec && leftConsec;
+    // this should never run
+    return false;
 }
 
-// returns true if the char c and the char d are in the same group, 
-// either by type (ABC, abc, 123) or by count (Aa1, Bb2, Cc3),
-// or if the location is empty
-bool Board::isValidPiece(char c, char d) {
-	bool b = false;
-	
-	switch (c) {
-	                //  ------ by type -----    ----- by count -----   - empty -
-	    case 'A':   if (d == 'B' || d == 'C' || d == 'a' || d == '1' || d == '.')
-	                    b = true;
-	                    break;
-	    case 'B':   if (d == 'A' || d == 'C' || d == 'b' || d == '2' || d == '.')
-	                    b = true;
-	                    break;
-	    case 'C':   if (d == 'A' || d == 'B' || d == 'c' || d == '3' || d == '.')
-	                    b = true;
-	                    break;
-	    case 'a':   if (d == 'b' || d == 'c' || d == 'A' || d == '1' || d == '.')
-	                    b = true;
-	                    break;
-	    case 'b':   if (d == 'a' || d == 'c' || d == 'B' || d == '2' || d == '.')
-	                    b = true;
-	                    break;
-	    case 'c':   if (d == 'a' || d == 'b' || d == 'C' || d == '3' || d == '.')
-	                    b = true;
-	                    break;
-	    case '1':   if (d == '2' || d == '3' || d == 'A' || d == 'a' || d == '.')
-	                    b = true;
-	                    break;
-	    case '2':   if (d == '1' || d == '3' || d == 'B' || d == 'b' || d == '.')
-	                    b = true;
-	                    break;
-	    case '3':   if (d == '1' || d == '2' || d == 'C' || d == 'c' || d == '.')
-	                    b = true;
-	                    break;
-	    }
-	
-	return b;
+CharCase Board::getCharCase(char c) {
+    CharCase charcase;
+    
+    if (c == 'A' || c == 'B' || c == 'C') 
+        charcase = UPPER;
+    if (c == 'a' || c == 'b' || c == 'c')
+        charcase = LOWER;
+    if (c == '1' || c == '2' || c == '3')
+        charcase = NUMBER; 
+        
+    return charcase;
+}
+
+CharCount Board::getCharCount(char c) {
+    CharCount charcount;
+    
+    if (c == 'A' || c == 'a' || c == '1') 
+        charcount = FIRST;
+    if (c == 'B' || c == 'b' || c == '2')
+        charcount = SECOND;
+    if (c == 'C' || c == 'c' || c == '3')
+        charcount = THIRD;
+    
+    return charcount; 
+}
+
+bool Board::isValidMove(int row, int column, char c) {
+    return false;
 }
 
 bool Board::isInBounds(int row, int column) {
