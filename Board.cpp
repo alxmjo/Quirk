@@ -15,12 +15,18 @@ Board::Board() {
     turnCount = 0;
 }
 
-bool Board::makeMove(int row, int column, char piece) {
+bool Board::makeMove(int row, int column, char piece, Player& player) {
     
     if (array[row][column] == '.') {
         array[row][column] = piece;   
         
-        if (isValidSet(getHorizontalRun(row, column)) && isNoRepeats(getHorizontalRun(row, column), getVerticalRun(row, column)) && isValidRunLength(getHorizontalRun(row, column), getVerticalRun(row, column)) && isValidSet(getVerticalRun(row, column))) {
+        
+        
+        if (isValidSet(getHorizontalRun(row, column)) 
+            && isValidSet(getVerticalRun(row, column))
+            && isNoRepeats(getHorizontalRun(row, column), getVerticalRun(row, column)) 
+            && isValidRunLength(getHorizontalRun(row, column), getVerticalRun(row, column))) {
+            player.addPoints(getMovePoints(getHorizontalRun(row, column), getVerticalRun(row, column)));
             turnCount++;
             return true;
         } else {
@@ -30,6 +36,24 @@ bool Board::makeMove(int row, int column, char piece) {
     } else {
         return false;
     }
+}
+
+int Board::getMovePoints(vector<char> verticalRun, vector<char> horizontalRun) {
+    int sum = 0;
+    
+    if (horizontalRun.size() == 1 && verticalRun.size() == 1) {
+        sum = 1;
+    }
+    
+    if (horizontalRun.size() > 1) {
+        sum += horizontalRun.size();
+    }
+    
+    if (verticalRun.size() > 1) {
+        sum += verticalRun.size();
+    }
+    
+    return sum;
 }
 
 // for testing

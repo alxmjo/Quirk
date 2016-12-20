@@ -74,7 +74,7 @@ void Game::promptMove() {
     // TODO: Validate input before checking if player has piece
     
     if (player.hasPiece(piece)) {
-        if (board.makeMove(row, column, piece)) {
+        if (board.makeMove(row, column, piece, player)) {
             player.removePiece(piece);
             player.fillHand(pool);
         } else {
